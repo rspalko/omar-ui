@@ -76,6 +76,7 @@ dependencyManagement {
 }
 
 grails {
+  pathingJar=true
   plugins {
       compile project(':omar-openlayers-plugin')
       compile project(':omar-core-plugin')

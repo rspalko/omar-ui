@@ -187,6 +187,16 @@
                   </table>
                   <br>
                 </li>
+                    <li class="col-sm-2 filter-row">
+                                          <div class="input-group input-group-sm">
+                                            <span class="input-group-addon">
+                                              <input type="checkbox"
+                                              ng-model="filter.viewPortSpatial"
+                                              ng-change="filter.byViewPort(filter.viewPortSpatial)">
+                                            </span>
+                                            <span class="input-group-addon spatial-name">Only search within current map extent</span>
+                                          </div>
+                    </li>
                 <li class="col-sm-12">
                   <ul>
                     <li class="filter-row text-center">
