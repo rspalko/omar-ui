@@ -370,7 +370,7 @@
       <div class="col-md-9">
         <div id="imageMap" class="map imageMap imageMapBorder">
           <div id="progress" class="text-info">
-            <i class="fa fa-spinner fa-spin fa-4x"></i>
+            <i class="fa fa fa-spin fa-4x"></i>
           </span>
         </div>
       </div>
