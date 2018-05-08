@@ -377,7 +377,9 @@
       // can use to properly display the layer.
       proj = new ol.proj.Projection({
         code: "ImageSpace",
-        units: "pixels",
+        //units: "pixels",
+        code: 'EPSG:21781',
+        units: 'm',
         extent: [0, 0, imgWidth, imgHeight]
       });
 
@@ -499,12 +501,24 @@
       //[minx, miny, maxx, maxy]
       const singleShotLayer = new ol.layer.Image({
         //        extent: [0, -imgHeight, imgWidth, 0],
-        //extent: [0, -imgHeight, imgWidth, 0],
         extent: [0, -imgHeight, imgWidth, 0],
+        //extent: [-imgWidth/2, -imgHeight/2, imgWidth/2, imgHeight/2],
+
         source: new ol.source.ImageWMS({
           url: "http://localhost:8081/imageSpace/getTile2",
           params: { LAYERS: "image" },
           ratio: 1,
+          imageLoadFunction: function (image, src) {
+            image.getImage().src = src;
+            console.log("source", decodeURIComponent(src));
+            //console.log("image", image);
+            //parse src for whatever you want to know
+            var bbox = decodeURI(src)
+              .match(/BBOX\=([^&^#]*)/)[1]
+              .split(",")
+              .map(Number);
+            console.log(bbox);
+          },
           resolutions: resolutionsSingle
         })
       });
@@ -520,7 +534,7 @@
         interactions: interactions,
         layers: [
           new ol.layer.Tile({ source: source }),
-          vector,
+          //vector,
           singleShotLayer
         ],
         logo: false,
@@ -528,7 +542,7 @@
         view: new ol.View({
           projection: proj,
           center: imgCenter,
-          zoom: 3,
+          zoom: 1,
           // constrain the center: center cannot be set outside
           // this extent
           extent: [0, -imgHeight, imgWidth, 0]
