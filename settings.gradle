@@ -1,21 +1,26 @@
 pluginManagement {
-  repositories {
-    maven { url "${ System.getenv('REPOSITORY_MANAGER_URL') }/ossim-deps" }
-    gradlePluginPortal()
-  }
+    repositories {
+        maven { url "${ System.getenv('MAVEN_REPOSITORY_URL') }/ossim-deps" }
+        gradlePluginPortal()
+    }
 }
-def final O2_DEV_HOME = System.getenv('O2_DEV_HOME')
 
-if ( O2_DEV_HOME ) {
+include 'omar-ui-app'
+project(':omar-ui-app').projectDir = "${rootProject.projectDir}/apps/omar-ui-app" as File
 
-   include 'omar-ui-app',
-           'omar-hibernate-spatial-plugin',
-           'omar-core-plugin',
-           'omar-openlayers-plugin'
-
-   project(':omar-ui-app').projectDir = "${O2_DEV_HOME}/omar-ui/apps/omar-ui-app" as File
-   project(':omar-core-plugin').projectDir = "${O2_DEV_HOME}/omar-core/plugins/omar-core-plugin" as File
-   project(':omar-openlayers-plugin').projectDir = "${O2_DEV_HOME}/omar-openlayers/plugins/omar-openlayers-plugin" as File
-   project(':omar-hibernate-spatial-plugin').projectDir = "${O2_DEV_HOME}/omar-hibernate-spatial/plugins/omar-hibernate-spatial-plugin" as File
-
+sourceControl {
+////    gitRepository("https://github.com/ossimlabs/omar-hibernate-spatial.git") {
+    gitRepository("../omar-hibernate-spatial") {
+        producesModule("io.ossim.omar.plugins:omar-hibernate-spatial-plugin")
+    }
+////    gitRepository("https://github.com/ossimlabs/omar-core.git") {
+    gitRepository("../omar-core") {
+        producesModule("io.ossim.omar.plugins:omar-core-plugin")
+    }
+////    gitRepository("https://github.com/ossimlabs/omar-openlayers.git") {
+    gitRepository("../omar-openlayers") {
+        producesModule("io.ossim.omar.plugins:omar-openlayers-plugin")
+    }
 }
+
+rootProject.name = groupName
