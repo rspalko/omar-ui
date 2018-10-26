@@ -3,11 +3,17 @@ import io.ossim.gradleDefaults.GrailsCommonConfig
 buildscript {
     repositories {
         mavenLocal()
-        maven { url "https://repo.grails.org/grails/core" }
-        jcenter()
+        if (!System.getenv('GRADLE_OFFLINE')) {
+            maven { url "https://repo.grails.org/grails/core" }
+            jcenter()
+        }
     }
     dependencies {
-        classpath 'io.ossim:gradleDefaults:1.0'
+        classpath('io.ossim:gradleDefaults:1.0') {
+            version {
+                branch = 'dev'
+            }
+        }
     }
 }
 

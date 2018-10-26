@@ -1,26 +1,49 @@
 pluginManagement {
     repositories {
-        maven { url "${ System.getenv('MAVEN_REPOSITORY_URL') }/ossim-deps" }
-        gradlePluginPortal()
+        if (!System.getenv('GRADLE_OFFLINE')) {
+            maven { url "${System.getenv('MAVEN_REPOSITORY_URL')}/ossim-deps" }
+            gradlePluginPortal()
+        }
     }
 }
 
 include 'omar-ui-app'
 project(':omar-ui-app').projectDir = "${rootProject.projectDir}/apps/omar-ui-app" as File
 
+def gradleDefaults_repo
+def omar_hibernate_spacial_repo
+def omar_core_repo
+def omar_openlayers_repo
+
+if(System.getenv('GRADLE_OFFLINE')) {
+    gradleDefaults_repo = '../gradleDefaults'
+    omar_hibernate_spacial_repo = '../omar-hibernate-spatial'
+    omar_core_repo = '../omar-core'
+    omar_openlayers_repo = '../omar-openlayers'
+} else {
+    gradleDefaults_repo = 'https://github.com/ossimlabs/gradleDefaults.git'
+    omar_hibernate_spacial_repo = 'https://github.com/ossimlabs/omar-hibernate-spatial.git'
+    omar_core_repo = 'https://github.com/ossimlabs/omar-core.git'
+    omar_openlayers_repo = 'https://github.com/ossimlabs/omar-openlayers.git'
+}
+
+println(gradleDefaults_repo)
+
 sourceControl {
-////    gitRepository("https://github.com/ossimlabs/omar-hibernate-spatial.git") {
-    gitRepository("../omar-hibernate-spatial") {
+
+    gitRepository(gradleDefaults_repo) {
+        producesModule("io.ossim:gradleDefaults")
+    }
+    gitRepository(omar_hibernate_spacial_repo) {
         producesModule("io.ossim.omar.plugins:omar-hibernate-spatial-plugin")
     }
-////    gitRepository("https://github.com/ossimlabs/omar-core.git") {
-    gitRepository("../omar-core") {
+    gitRepository(omar_core_repo) {
         producesModule("io.ossim.omar.plugins:omar-core-plugin")
     }
-////    gitRepository("https://github.com/ossimlabs/omar-openlayers.git") {
-    gitRepository("../omar-openlayers") {
+    gitRepository(omar_openlayers_repo) {
         producesModule("io.ossim.omar.plugins:omar-openlayers-plugin")
     }
+
 }
 
 rootProject.name = groupName

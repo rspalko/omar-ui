@@ -1,18 +1,16 @@
 buildscript {
-  ext {
-    grailsVersion = project.grailsVersion
-    baseImage = "omar-base"
-  }
 
   repositories {
     mavenLocal()
-    maven { url "${ System.getenv('MAVEN_REPOSITORY_URL') }/ossim-deps" }
-    maven { url "https://repo.grails.org/grails/core" }
+    if (!gradleOffline) {
+      maven { url "${mavenRepoUrl}/ossim-deps" }
+      maven { url "https://repo.grails.org/grails/core" }
+    }
   }
   dependencies {
-    classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+    classpath "org.grails:grails-gradle-plugin:${project.grailsVersion}"
     classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
-    classpath "com.bertramlabs.plugins:asset-pipeline-gradle:$assetPipelineGradleV"
+    classpath "com.bertramlabs.plugins:asset-pipeline-gradle:${assetPipelineGradleV}"
     classpath "net.errbuddy.plugins:babel-asset-pipeline:${babelAssetPipelineV}"
   }
 }
@@ -26,11 +24,6 @@ apply plugin: "java"
 apply plugin: "maven"
 
 group "io.ossim.omar.apps"
-
-ext {
-  grailsVersion = project.grailsVersion
-  gradleWrapperVersion = project.gradleWrapperVersion
-}
 
 assets {
   includes = ["**/fonts/**"]
@@ -50,8 +43,10 @@ assets {
 }
 
 repositories {
-  // maven { url  "http://dl.bintray.com/dmahapatro/plugins" }
-  maven { url "${ System.getenv('MAVEN_REPOSITORY_URL') }/ossim-deps" }
+  if (!gradleOffline) {
+    // maven { url  "http://dl.bintray.com/dmahapatro/plugins" }
+    maven { url "${mavenRepoUrl}/ossim-deps" }
+  }
 }
 
 dependencyManagement {
@@ -62,10 +57,12 @@ dependencyManagement {
 }
 
 grails {
-//  repositories {
-//    maven { url "${ System.getenv('MAVEN_REPOSITORY_URL') }/ossim-deps" }
-//    mavenLocal()
-//  }
+  repositories {
+    mavenLocal()
+    if (!gradleOffline) {
+      maven { url "${mavenRepoUrl}/ossim-deps" }
+    }
+  }
   plugins {
     compile('io.ossim.omar.plugins:omar-hibernate-spatial-plugin') {
       version {
@@ -87,6 +84,7 @@ grails {
 
 apply plugin: 'java-base'
 apply plugin: "maven-publish"
+
 publishing {
   publications {
     mavenJava(MavenPublication) {
