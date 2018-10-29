@@ -145,13 +145,14 @@ dependencies {
 
   compile "net.errbuddy.plugins:babel-asset-pipeline:${babelAssetPipelineV}"
 
-//  compile "org.hibernate:hibernate-core:${hibernateCoreV}" No version in plugin
+}
 
-//  runtime "com.bertramlabs.plugins:asset-pipeline-grails:$assetPipelineGrailsV" No version in plugin
-
-//  testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:${seleniumHtmlUnitDriverV}" No version specified
-//  testRuntime "net.sourceforge.htmlunit:htmlunit:${htmlUnitV}" No version specified
-
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+    }
+  }
 }
 
 bootRun {
