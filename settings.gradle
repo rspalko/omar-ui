@@ -7,9 +7,6 @@ pluginManagement {
     }
 }
 
-include 'omar-ui-app'
-project(':omar-ui-app').projectDir = "${rootProject.projectDir}/apps/omar-ui-app" as File
-
 def gradleDefaults_repo
 def omar_hibernate_spacial_repo
 def omar_core_repo
@@ -47,3 +44,7 @@ sourceControl {
 }
 
 rootProject.name = groupName
+
+
+include 'omar-ui-app'
+project(':omar-ui-app').projectDir = "${rootProject.projectDir}/apps/omar-ui-app" as File

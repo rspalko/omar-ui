@@ -2,7 +2,7 @@ buildscript {
 
   repositories {
     mavenLocal()
-    if (!gradleOffline) {
+    if (! System.getenv('GRADLE_OFFLINE')) {
       maven { url "${mavenRepoUrl}/ossim-deps" }
       maven { url "https://repo.grails.org/grails/core" }
     }
@@ -43,9 +43,11 @@ assets {
 }
 
 repositories {
-  if (!gradleOffline) {
+  mavenLocal()
+  if (! System.getenv('GRADLE_OFFLINE')) {
     // maven { url  "http://dl.bintray.com/dmahapatro/plugins" }
     maven { url "${mavenRepoUrl}/ossim-deps" }
+    mavenCentral()
   }
 }
 
@@ -59,7 +61,7 @@ dependencyManagement {
 grails {
   repositories {
     mavenLocal()
-    if (!gradleOffline) {
+    if (! System.getenv('GRADLE_OFFLINE')) {
       maven { url "${mavenRepoUrl}/ossim-deps" }
     }
   }
@@ -145,14 +147,6 @@ dependencies {
 
   compile "net.errbuddy.plugins:babel-asset-pipeline:${babelAssetPipelineV}"
 
-}
-
-publishing {
-  publications {
-    mavenJava(MavenPublication) {
-      from components.java
-    }
-  }
 }
 
 bootRun {
