@@ -37,6 +37,7 @@ subprojects { project ->
         }
 
     }
+    io.ossim.gradleDefaults.SonarQube.addSonarQube((Project) project)
 
 }
 

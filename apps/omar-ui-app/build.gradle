@@ -17,7 +17,6 @@ buildscript {
 
 plugins {
     id "com.github.ben-manes.versions" version "0.17.0"
-    id "org.sonarqube" version "2.6.2"
 }
 
 apply plugin: "java"
@@ -86,14 +85,6 @@ grails {
 
 apply plugin: 'java-base'
 apply plugin: "maven-publish"
-
-publishing {
-  publications {
-    mavenJava(MavenPublication) {
-      from components.java
-    }
-  }
-}
 
 dependencies {
 
